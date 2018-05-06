@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Econs Graph Maker</title>
+		
+		<link rel="icon" href="icon.png">
+		
+		<style>
+			
+			:root {
+				--right-side-bar-width: 250px; 
+				--right-side-bar-width-minus-12: 238px; 
+			}
+		
+			body { 
+				background-color: #F9FCFF;
+				margin: 0; 
+				
+				width: 100%;
+			}
+			
+			/*Top navigation bar*/
+			
+			.topNavigationBar {
+				background-color: #333333;
+				z-index: 1;
+				height: 50px;
+				overflow: hidden;
+			}
+
+			.topNavigationBar a {
+				float: left;
+				display: block;
+				color: #f2f2f2;
+				background: none;
+				border: none;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+				font-size: 17px;
+				font-family: 'Verdana', sans-serif;
+			}
+			
+			.topNavigationBar a:hover {
+				background-color: #dddddd;
+				color: #000000;
+				cursor:pointer;
+			}
+			
+			/* Main container */
+			
+			.mainContainer{
+				width: 100%;
+				height: calc(100% - 50px);
+				margin-top: 0px;
+				position: absolute;
+			    z-index: 0;
+				top: 50px;
+			    left: 0;
+				overflow-x: hidden;
+			}
+			
+			/* Left navigation bar */
+			
+			.leftSideNavigationBar {
+			    width: 250px;
+				height: calc(100%);
+			    position: absolute;
+			    z-index: 0;
+			    top: 0;
+			    left: 0;
+			    background-color: #dddddd;
+			    overflow-x: hidden;
+			}
+
+			.leftSideNavigationBar button {
+			    padding: 6px 8px 6px 16px;
+				margin-top: 4px;
+				margin-bottom: 2px;
+			    text-decoration: none;
+				font-family: 'Verdana', sans-serif;
+			    font-size: 16px;
+			    color: #000000;
+			    display: block;
+			    border: none;
+			    background: none;
+			    width:100%;
+			    text-align: left;
+			    cursor: pointer;
+			    outline: none;
+			}
+
+			.leftSideNavigationBar button:hover {
+			    color: #888888;
+			}
+
+			.demandSupplyDropdownContainer {
+				display: none;
+				padding-left: 8px;
+			}
+			
+			.demandSupplyDropdownContainer button {
+				padding: 6px 8px 6px 16px;
+				margin-top: 2px;
+				margin-bottom: 2px;
+			    text-decoration: none;
+				font-family: 'Verdana', sans-serif;
+			    font-size: 14px;
+			    color: #000000;
+			    display: block;
+			    border: none;
+			    background: none;
+			    width:100%;
+			    text-align: left;
+			    cursor: pointer;
+			    outline: none;
+			}
+			
+			/* Svg */
+			
+			.svgGraph{
+				width: calc(100% - 500px);
+				height: 100%;
+				left:250px;
+				right:250px;
+				position: absolute;
+				background-color: #ffffff;
+			}
+			
+			/* Right navigation bar */
+			
+			.rightSideNavigationBar {
+				float: right;
+				position: absolute;
+			    width: var(--right-side-bar-width);
+				right: 0px;
+				height: calc(100%);
+			    z-index: 0;
+			    top: 0;
+			    right: 0;
+			    background-color: #dddddd;
+			    overflow-x: hidden;
+			    padding-top: 0px;
+				display:flex;
+				flex-direction: column;
+			}
+			
+			.rightSideNavigationBarTop {
+				height:50%;
+			}
+			
+			.demandSupplyAddItems{
+				background-color: #dddddd;
+			}
+			
+			.demandSupplyAddItems button {
+			    padding: 6px 8px 6px 16px;
+				margin-top: 4px;
+				margin-bottom: 2px;
+			    text-decoration: none;
+				font-family: 'Verdana', sans-serif;
+			    font-size: 16px;
+			    color: #000000;
+			    display: block;
+			    border: none;
+			    background: none;
+			    width:100%;
+			    text-align: left;
+			    cursor: pointer;
+			    outline: none;
+			}
+			
+			.demandSupplyAddItems button:hover {
+			    color: #888888;
+			}
+			
+			.rightSideNavigationBarBottom {
+				height:50%;
+			}
+
+			.svgGraphAttributeTemplate, svgGraphItemLineAttributeTemplate, svgGraphItemTextAttributeTemplate{
+				background-color: #dddddd;
+			}	
+		
+		</style>
+	</head>
+
+	<body>
+	
+		<div class="topNavigationBar" id="topNavigationBar">
+			<a href="#econsGraphMaker" class="topBarEconsGraphGenerator">Econs Graph Maker</a>
+			<a href="#save" class="topBarSave">Save</a>
+			<a href="" download="graph.png" onclick="onClickExport(this)" class="topBarExport">Export</a>
+			<a href="#about" style="float:right" class="topBarAbout">About</a>
+			<a href="#feedback" style="float:right" class="topBarAbout">Feedback</a>
+
+		</div>
+			
+		<div class="mainContainer">
+			
+			<div id="leftSideNavigationBar" class="leftSideNavigationBar">
+				
+				<button class="demandSupplyButton">Demand and Supply</button>
+				
+				<div class="demandSupplyDropdownContainer">
+					<button onclick="onClickDemandSupplyStandard()">Standard</button>
+					<button href="#">Demand Increase Only(Coming soon)</button>
+					<button href="#">Supply Increase Only(Coming soon)</button>
+				</div>
+				
+				<button class="marketFailureButton">Market Failure(Coming soon)</button>
+				
+				<button class="adAsButton">Aggregate Demand-Aggregate Supply(Coming soon)</button>
+				
+			</div>
+			
+			<svg id="svgGraph" class="svgGraph">
+				
+			</svg>
+			
+			<div id="rightSideNavigationBar" class="rightSideNavigationBar">
+				
+				<div id="rightSideNavigationBarTop" class="rightSideNavigationBarTop">
+				
+				</div>
+				
+				<div id="rightSideNavigationBarBottom" class="rightSideNavigationBarBottom">
+				
+				</div>
+				
+			</div>
+
+		</div>
+		
+		<template id="demandSupplyAddItemsTemplate">
+		
+			<div class="demandSupplyAddItems">
+				<button onclick="ddSSAddDemandLine()">Add Demand Line</button>
+				<button onclick="ddSSAddSupplyLine()">Add Supply Line</button>
+			</div>
+		
+		</template>
+		
+		<template id="svgGraphAttributeTemplate">
+		
+			<div class="svgGraphAttributeTemplate">
+			
+			</div>
+		
+		</template>
+		
+		<template id="svgGraphItemLineAttributeTemplate">
+		
+			<!-- 1 div for everything, 1 div per row/attribute. In a row, a button on the left, another div on the right. Within that div, buttons or other divs-->
+			<div class="svgGraphItemLineAttribute">
+                
+				<!-- Elasticity(slope) of the curve -->
+				<div style="width:var(--right-side-bar-width-minus-12); height:45px; display:flex; margin: 6px 6px 6px 6px;">
+					<div style="width:calc(var(--right-side-bar-width-minus-12) / 3); height: 45px; float:left">
+						<p style="font-family: 'Verdana', sans-serif;" align="left">Elasticity</p>
+					</div>
+					<div style="width:calc(2 * var(--right-side-bar-width-minus-12) / 3); height: 45px; float:left; vertical-align:center">
+						<button onclick="ddSSMakeLineLessElastic(rightSideNavigationBarBottom)" style="width:calc(var(--right-side-bar-width-minus-12) / 3); height: 45px; float:left;">More elastic</button>
+						<button onclick="ddSSMakeLineMoreElastic(rightSideNavigationBarBottom)" style="width:calc(var(--right-side-bar-width-minus-12) / 3); height: 45px; float:left;">More inelastic</button>
+					</div>
+				</div>
+				
+				<!-- Position of the curve -->
+				<div style="width:var(--right-side-bar-width-minus-12); height:45px; display:flex; margin: 6px 6px 6px 6px;">
+					<div style="width:calc(var(--right-side-bar-width-minus-12) / 3); height: 45px; float:left">
+						<p style="font-family: 'Verdana', sans-serif;" align="left">Move</p>
+					</div>
+					<div style="width:calc(2 * var(--right-side-bar-width-minus-12) / 3); height: 60px; float:left; vertical-align:center">
+						<div>
+							<div style="width:calc(2 * var(--right-side-bar-width-minus-12) / 9); height: 30px; float:left;"></div>
+							<button style="width:calc(2 * var(--right-side-bar-width-minus-12) / 9); height: 30px; float:left;">Up</button>
+							<div style="width:calc(2 * var(--right-side-bar-width-minus-12) / 9); height: 30px; float:left;"></div>
+						</div>
+						<div>
+							<button style="width:calc(2 * var(--right-side-bar-width-minus-12) / 9); height: 30px; float:left;">Left</button>
+							<button style="width:calc(2 * var(--right-side-bar-width-minus-12) / 9); height: 30px; float:left;">Down</button>
+							<button style="width:calc(2 * var(--right-side-bar-width-minus-12) / 9); height: 30px; float:left;">Right</button>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Delete or deselect the line -->
+
+			</div>
+		
+		</template>
+		
+		<template id="svgGraphItemTextAttributeTemplate">
+		
+			<div class="svgGraphItemTextAttribute">
+				<table>
+				    <tr>
+						<td><p>Text</p></td>
+						<td><input id="svgGraphItemTextAttributeInputText"></input></td>
+				    </tr>
+				</table>
+			</div>
+		
+		</template>
+			
+	</body>
+	
+	<script>
+	/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+	var dropdown = document.getElementsByClassName("demandSupplyButton");
+	var i;
+
+	for (i = 0; i < dropdown.length; i++) {
+	
+	    dropdown[i].addEventListener("click", function() {
+	  
+			this.classList.toggle("active");
+			var dropdownContent = this.nextElementSibling;
+			if (dropdownContent.style.display === "block") {
+			    dropdownContent.style.display = "none";
+			} else {
+			    dropdownContent.style.display = "block";
+			}
+		
+	    });
+	  
+	}
+	</script>
+	
+</html>
+
+<script src="jquery-3.3.1.js"></script>
+
+<script type="text/javascript" src="http://canvg.github.io/canvg/rgbcolor.js"></script> 
+<script type="text/javascript" src="http://canvg.github.io/canvg/StackBlur.js"></script>
+<script type="text/javascript" src="http://canvg.github.io/canvg/canvg.js"></script> 
+
+<script src="Macros.js"></script>
+<script src="SvgGraph.js"></script>
+<script src="SvgGraphDemandSupply.js"></script>
+<script src="SvgGraphItemAttributes.js"></script>
+<script src="SvgGraphItemLine.js"></script>
+<script src="SvgGraphItemShape.js"></script>
+<script src="SvgGraphItemArrow.js"></script>
+<script src="SvgGraphItemAxis.js"></script>
+<script src="SvgGraphItemText.js"></script>
+<script src="DemandSupplyEvents.js"></script>
+<script src="Events.js"></script>
